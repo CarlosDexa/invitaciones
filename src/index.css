@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script:wght@300;400;500;600;700&family=Italianno:wght@300;400;500;600;700&family=Great+Vibes&display=swap');
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
