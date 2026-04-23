@@ -21,6 +21,7 @@ import Itinerario from "../assets/invitacion/Itinerario.svg";
 import Fecha from "../assets/invitacion/fecha.svg";
 import Calendario from "../assets/invitacion/calendario.svg";
 import Novios from "../assets/invitacion/novios.png";
+
 export default function InvitacionBodaShelyAndre() {
   const [countdown, setCountdown] = useState({
     days: 94,
