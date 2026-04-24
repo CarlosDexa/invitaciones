@@ -95,6 +95,23 @@ const skipTime = (seconds) => {
   );
 };
 
+useEffect(() => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  const startMusic = async () => {
+    try {
+      audio.volume = 0.7;
+      await audio.play();
+      setIsPlaying(true);
+    } catch (error) {
+      setIsPlaying(false);
+      console.log("El navegador bloqueó el autoplay con sonido:", error);
+    }
+  };
+
+  startMusic();
+}, []);
 
   const sparkles = useMemo(
     () =>
@@ -172,12 +189,13 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${confirmationMessage
 
          <div className="mt-2 text-center">
   <audio
-    ref={audioRef}
-    src={Cancion}
-    onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-    onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
-    onEnded={() => setIsPlaying(false)}
-  />
+  ref={audioRef}
+  src={Cancion}
+  autoPlay
+  onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+  onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+  onEnded={() => setIsPlaying(false)}
+/>
 
   <button
     type="button"
