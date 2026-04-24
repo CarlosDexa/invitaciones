@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import {
@@ -16,6 +16,8 @@ import {
 import QrRegalos from "./QrRegalos";
 import { IoGiftSharp } from "react-icons/io5";
 import Calendar from "../assets/invitacion/calendar.png";
+
+import Cancion from "../assets/invitacion/cancion.mp3";
 
 import Itinerario from "../assets/invitacion/Itinerario.svg";
 import Fecha from "../assets/invitacion/fecha.svg";
@@ -50,6 +52,50 @@ export default function InvitacionBodaShelyAndre() {
     return () => clearInterval(interval);
   }, []);
 
+
+  const audioRef = useRef(null);
+
+const [isPlaying, setIsPlaying] = useState(false);
+const [currentTime, setCurrentTime] = useState(0);
+const [duration, setDuration] = useState(0);
+
+const formatTime = (time) => {
+  if (!time || Number.isNaN(time)) return "00:00";
+
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+};
+
+const toggleMusic = async () => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  try {
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      await audio.play();
+      setIsPlaying(true);
+    }
+  } catch (error) {
+    console.log("El navegador bloqueó la reproducción automática:", error);
+  }
+};
+
+const skipTime = (seconds) => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  audio.currentTime = Math.max(
+    0,
+    Math.min(audio.currentTime + seconds, duration || audio.duration)
+  );
+};
+
+
   const sparkles = useMemo(
     () =>
       Array.from({ length: 14 }, (_, i) => ({
@@ -62,6 +108,14 @@ export default function InvitacionBodaShelyAndre() {
     []
   );
 
+
+  const whatsappNumber = "5219981503935";
+
+const confirmationMessage = encodeURIComponent(
+  "Hola, con mucho gusto confirmo mi asistencia a la boda civil de Shely & André. Será un honor acompañarlos en este día tan especial. ¡Muchas gracias por la invitación!"
+);
+
+const whatsappLink = `https://wa.me/${whatsappNumber}?text=${confirmationMessage}`;
   return (
     <div className="min-h-screen bg-[#526a43] text-[#f8f2e8]">
       <style>{`
@@ -116,22 +170,62 @@ export default function InvitacionBodaShelyAndre() {
         <section className="mt-6 border border-white/40 p-2">
           <div className="aspect-[4/5] w-full border border-white/30 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)),url('https://media.canva.com/v2/image-resize/format:JPG/height:800/quality:92/uri:ifs%3A%2F%2FM%2Fe3c740e2-2ac4-4249-93c8-8c8a1d776050/watermark:F/width:640?csig=AAAAAAAAAAAAAAAAAAAAAJWbYNrwGw3gSWQS6le4-NS9FuSpN2K7dXrpIKlHq0i9&exp=1776972951&osig=AAAAAAAAAAAAAAAAAAAAAOZEIF3bExVOGEX7mZLc1NnraQIz6NZf8iKn6E193NZo&signer=media-rpc&x-canva-quality=screen')] bg-cover bg-center" />
 
-          <div className="mt-2 text-center">
-            <button className="inline-flex items-center gap-2 font-link text-[22px] text-[#f3e7da]">
-              <Music2 className="h-4 w-4" />
-              Dale play a la canción
-            </button>
+         <div className="mt-2 text-center">
+  <audio
+    ref={audioRef}
+    src={Cancion}
+    onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+    onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+    onEnded={() => setIsPlaying(false)}
+  />
 
-            <div className="mx-auto mt-2 flex max-w-[290px] items-center gap-3 text-[#f3e9db]">
-              <span className="font-serif-elegant text-[10px]">00:00</span>
-              <div className="h-px flex-1 bg-white/60" />
-              <button className="font-serif-elegant text-[12px]">◄◄</button>
-              <button className="font-serif-elegant text-[14px]">▶</button>
-              <button className="font-serif-elegant text-[12px]">►►</button>
-              <div className="h-px flex-1 bg-white/60" />
-              <span className="font-serif-elegant text-[10px]">04:12</span>
-            </div>
-          </div>
+  <button
+    type="button"
+    onClick={toggleMusic}
+    className="inline-flex items-center gap-2 font-link text-[22px] text-[#f3e7da]"
+  >
+    <Music2 className="h-4 w-4" />
+    {isPlaying ? "Pausar canción" : "Dale play a la canción"}
+  </button>
+
+  <div className="mx-auto mt-2 flex max-w-[290px] items-center gap-3 text-[#f3e9db]">
+    <span className="font-serif-elegant text-[10px]">
+      {formatTime(currentTime)}
+    </span>
+
+    <div className="h-px flex-1 bg-white/60" />
+
+    <button
+      type="button"
+      onClick={() => skipTime(-10)}
+      className="font-serif-elegant text-[12px]"
+    >
+      ◄◄
+    </button>
+
+    <button
+      type="button"
+      onClick={toggleMusic}
+      className="font-serif-elegant text-[14px]"
+    >
+      {isPlaying ? "❚❚" : "▶"}
+    </button>
+
+    <button
+      type="button"
+      onClick={() => skipTime(10)}
+      className="font-serif-elegant text-[12px]"
+    >
+      ►►
+    </button>
+
+    <div className="h-px flex-1 bg-white/60" />
+
+    <span className="font-serif-elegant text-[10px]">
+      {formatTime(duration)}
+    </span>
+  </div>
+</div>
         </section>
 
         <section className="mt-7 text-center">
@@ -261,7 +355,9 @@ export default function InvitacionBodaShelyAndre() {
           </p>
 
           <a
-            href="#"
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-5 inline-block px-7 py-2 font-link text-[22px] text-[#f8f2e8] underline underline-offset-4"
           >
             Click para confirmar.
