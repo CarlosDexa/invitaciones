@@ -11,7 +11,7 @@ export default function SobreIntro({ onAnimationComplete }) {
   const [isExiting, setIsExiting] = useState(false);
   const [showTapHint, setShowTapHint] = useState(true);
 
-  const MAX_DURATION = 3;
+  const MAX_DURATION = 7;
 
   useEffect(() => {
     const timer = setTimeout(() => setShowTapHint(false), 4000);
