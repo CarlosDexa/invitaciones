@@ -326,7 +326,7 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${confirmationMessage
   siguientes tonos.
 </p>
   <div className="mt-4 flex items-center justify-center gap-3">
-    {["#d7d5c8", "#b9b09e", "#dbb7b6", "#dca3a0", "#cb4740"].map((c, i) => (
+    {[ "#b9b09e", "#dbb7b6", "#dca3a0", "#cb4740"].map((c, i) => (
       <span
         key={i}
         className="h-5 w-5 rounded-sm border border-white/20"
