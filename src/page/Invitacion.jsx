@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-import { Heart, Music2 } from "lucide-react";
+import { Heart, Music2, MapPin } from "lucide-react";
 import { IoGiftSharp } from "react-icons/io5";
 
 import QrRegalos from "./QrRegalos";
@@ -13,6 +13,7 @@ import Itinerario from "../assets/invitacion/Itinerario.svg";
 import Fecha from "../assets/invitacion/fecha.svg";
 import Calendario from "../assets/invitacion/calendario.svg";
 import Novios from "../assets/invitacion/novios.png";
+
 
 const fadeUp = {
   hidden: {
@@ -380,6 +381,35 @@ export default function InvitacionBodaShelyAndre() {
             1:00 am.
           </motion.p>
         </AnimatedSection>
+
+        <SectionBlock
+  title="Ubicación"
+  titleClassName="font-link text-[34px] leading-none"
+  titleTopLine={true}
+  titleBottomLine={true}
+  titleLineWidth="w-60"
+>
+  <p className="mx-auto mt-3 max-w-[300px] font-serif-elegant text-[30px] leading-[1.08] text-[#f0dfd7]">
+    Recepciones Sarath Cancún
+  </p>
+
+  <p className="mx-auto mt-2 max-w-[310px] font-script text-[24px] leading-[1.12] text-[#f8f2e8]">
+    Av. Álamos s/n, 77560 Cancún, Q.R.
+  </p>
+
+  <motion.a
+    href="https://maps.google.com?q=Recepciones%20Sarath%20Cancun,%20Av.%20Alamos%20s/n,%2077560%20Canc%C3%BAn,%20Q.R.&ftid=0x0:0xa619f6dd81c20795&entry=gps&shh=CAE&lucs=,94297699,94284502,94231188,94280568,47071704,94218641,94282134,100799872,94286869&g_st=iw"
+    target="_blank"
+    rel="noopener noreferrer"
+    whileHover={{ scale: 1.04 }}
+    whileTap={{ scale: 0.98 }}
+    className="mt-5 inline-flex items-center justify-center gap-2 border border-white/45 px-7 py-2 font-link text-[24px] text-[#f8f2e8] transition duration-300 hover:bg-white/10 hover:text-white"
+  >
+    <MapPin className="h-4 w-4" />
+    Ver ubicación
+  </motion.a>
+
+</SectionBlock>
 
         <SectionBlock
           title="Código de vestimenta"
