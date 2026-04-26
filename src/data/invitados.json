@@ -2,14 +2,14 @@
   "invitados": [
     {
       "id": 1,
-      "nombre": "Juan Pérez",
-      "numero": "1234567890",
-      "token": "1-Juan-Perez",
+      "nombre": "Fernando Hernandez",
+      "numero": "9983153211",
+      "token": "1-Fernando-Hernandez",
       "pases": 2
     },
     {
       "id": 2,
-      "nombre": "karla Ramirez",
+      "nombre": "Karla Ramirez",
       "numero": "3121431397",
       "token": "2-Karla-Ramirez",
       "pases": 3
