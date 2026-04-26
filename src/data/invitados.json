@@ -1,0 +1,32 @@
+{
+  "invitados": [
+    {
+      "id": 1,
+      "nombre": "Juan Pérez",
+      "numero": "1234567890",
+      "token": "1-Juan-Perez",
+      "pases": 2
+    },
+    {
+      "id": 2,
+      "nombre": "karla Ramirez",
+      "numero": "3121431397",
+      "token": "2-Karla-Ramirez",
+      "pases": 3
+    },
+    {
+      "id": 3,
+      "nombre": "Michell Hernandez Mesa",
+      "numero": "9983663869",
+      "token": "3-Michell-Hernandez-Mesa",
+      "pases": 1
+    },
+    {
+      "id": 4,
+      "nombre": "Carlos Garcia",
+      "numero": "9902407797",
+      "token": "4-Carlos-Garcia",
+      "pases": 4
+    }
+  ]
+}

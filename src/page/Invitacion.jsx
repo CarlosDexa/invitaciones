@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { Heart, Music2, MapPin } from "lucide-react";
 import { IoGiftSharp } from "react-icons/io5";
@@ -12,7 +12,9 @@ import Sesion from "../assets/invitacion/sesion.jpeg";
 import Itinerario from "../assets/invitacion/Itinerario.svg";
 import Fecha from "../assets/invitacion/fecha.svg";
 import Calendario from "../assets/invitacion/calendario.svg";
-import Novios from "../assets/invitacion/novios.png";
+import Novios from "../assets/invitacion/novios.svg";
+import HighlightsGallery from "./HighlightsGallery";
+import invitadosData from "../data/invitados.json";
 
 
 const fadeUp = {
@@ -82,7 +84,7 @@ export default function InvitacionBodaShelyAndre() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-
+const [isPassModalOpen, setIsPassModalOpen] = useState(false);
   useEffect(() => {
     const target = new Date("2026-07-25T19:00:00").getTime();
 
@@ -181,23 +183,35 @@ export default function InvitacionBodaShelyAndre() {
 
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${confirmationMessage}`;
 
+
+  const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+
+const invitado = invitadosData.invitados.find(
+  (persona) => persona.token === token
+);
+
+const nombreInvitado = invitado?.nombre || "Invitado especial";
+const pasesInvitado = invitado?.pases || 1;
+
   return (
     <div className="min-h-screen bg-[#526a43] text-[#f8f2e8]">
       <style>{`
-        .font-script { font-family: "Great Vibes", cursive; }
-        .font-serif-elegant { font-family: "Italianno", serif; }
-        .font-link { font-family: "Pinyon Script", serif; font-style: italic; }
+  .font-script { font-family: "Great Vibes", cursive; }
+  .font-serif-elegant { font-family: "Italianno", serif; }
+  .font-link { font-family: "Pinyon Script", serif; font-style: italic; }
+  .font-body { font-family: "Playfair Display", serif; font-style: italic; }
 
-        @keyframes twinkle {
-          0%,100% { opacity: .12; transform: scale(.92); }
-          50% { opacity: .55; transform: scale(1.08); }
-        }
+  @keyframes twinkle {
+    0%,100% { opacity: .12; transform: scale(.92); }
+    50% { opacity: .55; transform: scale(1.08); }
+  }
 
-        @keyframes slowFloat {
-          0%,100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-      `}</style>
+  @keyframes slowFloat {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+`}</style>
 
       <div className="pointer-events-none fixed inset-0 overflow-hidden opacity-30">
         {sparkles.map((item) => (
@@ -435,7 +449,7 @@ export default function InvitacionBodaShelyAndre() {
 
           <div className="mx-auto mt-1 h-px w-60 bg-white/45" />
 
-          <p className="mx-auto mt-3 max-w-[285px] font-script text-[28px] leading-[1.08] text-[#f0dfd7]">
+          <p className="mx-auto mt-3 max-w-[285px] font-body text-[18px] leading-[1.08] text-[#f0dfd7]">
             Para armonizar con la paleta de la boda, agradeceremos{" "}
             <span className="text-[#dca3a0] underline underline-offset-2">
               evitar
@@ -471,7 +485,7 @@ export default function InvitacionBodaShelyAndre() {
           titleBottomLine={true}
           titleLineWidth="w-60"
         >
-          <p className="mx-auto mt-3 max-w-[300px] font-script text-[28px] leading-[1.08] text-[#f0dfd7]">
+          <p className="mx-auto mt-3 max-w-[300px] font-body text-[18px] leading-[1.08] text-[#f0dfd7]">
             El mejor regalo es tu presencia, pero si deseas tener un detalle con
             nosotros les dejamos estas opciones.
           </p>
@@ -489,34 +503,33 @@ export default function InvitacionBodaShelyAndre() {
         </SectionBlock>
 
         <SectionBlock
-          icon={
-            <img
-              src={Calendar}
-              alt="Calendario"
-              className="mb-4 h-auto w-48 text-[#f8f2e8]"
-            />
-          }
-          title="Confirmación"
-          titleClassName="font-link text-[34px] leading-none"
-          titleTopLine={true}
-          titleBottomLine={true}
-          titleLineWidth="w-60"
-        >
-          <p className="mx-auto mt-3 max-w-[300px] font-serif-elegant text-[28px] leading-[1.08] text-[#f0dfd7]">
-            Agradecemos que confirmes tu asistencia antes del 25 de Julio.
-          </p>
+  icon={
+    <img
+      src={Calendar}
+      alt="Calendario"
+      className="mb-4 h-auto w-48 text-[#f8f2e8]"
+    />
+  }
+  title="Confirmación"
+  titleClassName="font-link text-[34px] leading-none"
+  titleTopLine={true}
+  titleBottomLine={true}
+  titleLineWidth="w-60"
+>
+  <p className="mx-auto mt-3 max-w-[300px] font-body text-[18px] leading-[1.45] text-[#f0dfd7]">
+    Agradecemos que confirmes tu asistencia antes del 25 de Julio.
+  </p>
 
-          <motion.a
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.98 }}
-            className="mt-5 inline-block px-7 py-2 font-link text-[22px] text-[#f8f2e8] underline underline-offset-4 transition duration-300 hover:text-white"
-          >
-            Click para confirmar.
-          </motion.a>
-        </SectionBlock>
+  <motion.button
+    type="button"
+    onClick={() => setIsPassModalOpen(true)}
+    whileHover={{ scale: 1.04 }}
+    whileTap={{ scale: 0.98 }}
+    className="mt-5 inline-block px-7 py-2 font-link text-[24px] text-[#f8f2e8] underline underline-offset-4 transition duration-300 hover:text-white"
+  >
+    Click para confirmar.
+  </motion.button>
+</SectionBlock>
 
         <SectionBlock
           icon={<Heart className="h-auto w-36 fill-current text-[#f8f2e8]" />}
@@ -526,7 +539,7 @@ export default function InvitacionBodaShelyAndre() {
           titleBottomLine={true}
           titleLineWidth="w-60"
         >
-          <p className="mx-auto mt-3 max-w-[300px] font-serif-elegant text-[28px] leading-[1.08] text-[#f0dfd7]">
+          <p className="mx-auto mt-3 max-w-[300px] font-body text-[18px] leading-[1.08] text-[#f0dfd7]">
             Seguir con las indicaciones del personal de la boda y ser puntual.
           </p>
         </SectionBlock>
@@ -535,7 +548,7 @@ export default function InvitacionBodaShelyAndre() {
           title="Sin niños"
           titleClassName="font-link text-[34px] underline underline-offset-4 leading-none"
         >
-          <p className="mx-auto mt-3 max-w-[310px] font-serif-elegant text-[28px] leading-[1.08] text-[#f0dfd7]">
+          <p className="mx-auto mt-3 max-w-[310px] font-body text-[18px] leading-[1.08] text-[#f0dfd7]">
             Para crear un ambiente especial, hemos decidido que este evento sea
             exclusivo para adultos. Gracias por su comprensión.
           </p>
@@ -556,7 +569,91 @@ export default function InvitacionBodaShelyAndre() {
             ¡Muchas gracias!
           </motion.p>
         </AnimatedSection>
-      </motion.main>
+     </motion.main>
+
+<HighlightsGallery />
+
+<AnimatePresence>
+  {isPassModalOpen && (
+    <motion.div
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-black/75 px-4 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={() => setIsPassModalOpen(false)}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: 24 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[360px] overflow-hidden rounded-[32px] border border-[#d7c9a5]/60 bg-[#f8f2e8] px-6 py-8 text-center text-[#526a43] shadow-2xl"
+      >
+        <button
+          type="button"
+          onClick={() => setIsPassModalOpen(false)}
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-[#526a43]/25 text-[#526a43] transition hover:bg-[#526a43]/10"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#b89a4f]/50 text-[#b89a4f]">
+          <Heart className="h-7 w-7 fill-current" />
+        </div>
+
+        <p className="font-body text-[11px] uppercase tracking-[0.32em] text-[#526a43]/70">
+          Invitación especial
+        </p>
+
+        <h3 className="mt-3 font-link text-[46px] leading-none text-[#b89a4f]">
+          {nombreInvitado}
+        </h3>
+
+        <div className="mx-auto mt-5 h-px w-44 bg-[#b89a4f]/40" />
+
+        <p className="mx-auto mt-6 max-w-[270px] font-body text-[17px] leading-[1.55] text-[#526a43]/85">
+          Hemos reservado
+        </p>
+
+        <p className="mt-2 font-link text-[72px] leading-none text-[#526a43]">
+          {pasesInvitado}
+        </p>
+
+        <p className="mx-auto mt-2 max-w-[270px] font-body text-[17px] leading-[1.55] text-[#526a43]/85">
+          {pasesInvitado === 1
+            ? "cupo en tu honor"
+            : "cupos en tu honor"}
+        </p>
+
+        <p className="mx-auto mt-5 max-w-[280px] font-body text-[13px] leading-[1.6] text-[#526a43]/65">
+          Para ayudarnos con la organización, agradecemos confirmar tu
+          asistencia.
+        </p>
+
+        <motion.a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-7 inline-flex items-center justify-center rounded-full border border-[#b89a4f]/60 bg-[#526a43] px-7 py-3 font-link text-[24px] leading-none text-[#f8f2e8] shadow-lg transition hover:bg-[#455a39]"
+        >
+          Confirmar asistencia
+        </motion.a>
+
+        <button
+          type="button"
+          onClick={() => setIsPassModalOpen(false)}
+          className="mt-5 block w-full font-body text-[12px] uppercase tracking-[0.2em] text-[#526a43]/55 underline underline-offset-4"
+        >
+          Volver a la invitación
+        </button>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </div>
   );
 }
