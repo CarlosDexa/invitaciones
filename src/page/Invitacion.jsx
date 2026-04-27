@@ -322,7 +322,7 @@ const pasesInvitado = invitado?.pases || 1;
         </motion.section>
 
         <AnimatedSection className="mt-7 text-center">
-          <p className="mx-auto max-w-[292px] font-script text-[26px] leading-[1.12] text-[#f8f2e8]">
+          <p className="mx-auto max-w-[292px] font-body text-[24px] leading-[1.12] text-[#f8f2e8]">
             Con la bendición de Dios y nuestros padres, tenemos el honor de
             invitarles a nuestra boda civil.
           </p>
@@ -403,11 +403,11 @@ const pasesInvitado = invitado?.pases || 1;
   titleBottomLine={true}
   titleLineWidth="w-60"
 >
-  <p className="mx-auto mt-3 max-w-[300px] font-serif-elegant text-[30px] leading-[1.08] text-[#f0dfd7]">
+  <p className="mx-auto mt-3 max-w-[300px] font-body text-[26px] leading-[1.08] text-[#f0dfd7]">
     Recepciones Sarath Cancún
   </p>
 
-  <p className="mx-auto mt-2 max-w-[310px] font-script text-[24px] leading-[1.12] text-[#f8f2e8]">
+  <p className="mx-auto mt-2 max-w-[310px] font-body text-[20px] leading-[1.12] text-[#f8f2e8]">
     Av. Álamos s/n, 77560 Cancún, Q.R.
   </p>
 
@@ -417,7 +417,7 @@ const pasesInvitado = invitado?.pases || 1;
     rel="noopener noreferrer"
     whileHover={{ scale: 1.04 }}
     whileTap={{ scale: 0.98 }}
-    className="mt-5 inline-flex items-center justify-center gap-2 border border-white/45 px-7 py-2 font-link text-[24px] text-[#f8f2e8] transition duration-300 hover:bg-white/10 hover:text-white"
+    className="mt-5 inline-flex items-center justify-center gap-2 border border-white/45 px-7 py-2 font-body text-[24px] text-[#f8f2e8] transition duration-300 hover:bg-white/10 hover:text-white"
   >
     <MapPin className="h-4 w-4" />
     Ver ubicación
@@ -525,7 +525,7 @@ const pasesInvitado = invitado?.pases || 1;
     onClick={() => setIsPassModalOpen(true)}
     whileHover={{ scale: 1.04 }}
     whileTap={{ scale: 0.98 }}
-    className="mt-5 inline-block px-7 py-2 font-link text-[24px] text-[#f8f2e8] underline underline-offset-4 transition duration-300 hover:text-white"
+    className="mt-5 inline-block px-7 py-2 font-body text-[18px] text-[#f8f2e8] underline underline-offset-4 transition duration-300 hover:text-white"
   >
     Click para confirmar.
   </motion.button>

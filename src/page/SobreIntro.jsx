@@ -4,6 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import sobreCerrado from "../assets/sobre-cerrado.svg";
 import sobreAbierto from "../assets/sobre-abierto.svg";
 
+const SHAKE_DURATION = 2850;
+const OPEN_VISIBLE_DURATION = 2300;
+const EXIT_DURATION = 900;
+
 export default function SobreIntro({ onAnimationComplete }) {
   const exitTimerRef = useRef(null);
   const hintTimerRef = useRef(null);
@@ -34,18 +38,19 @@ export default function SobreIntro({ onAnimationComplete }) {
     setIsOpening(true);
     setShowTapHint(false);
 
-    // Tiempo que dura la sacudida antes del cambio de imagen
-   openTimerRef.current = setTimeout(() => {
-  setShowOpenEnvelope(true);
-}, 2850);
+    // Aparece el sobre abierto justo cuando termina el destello.
+    openTimerRef.current = setTimeout(() => {
+      setShowOpenEnvelope(true);
+    }, SHAKE_DURATION);
 
-exitTimerRef.current = setTimeout(() => {
-  setIsExiting(true);
+    // Mantiene el sobre abierto visible unos segundos antes de entrar.
+    exitTimerRef.current = setTimeout(() => {
+      setIsExiting(true);
 
-  completeTimerRef.current = setTimeout(() => {
-    onAnimationComplete?.();
-  }, 900);
-}, 5600);
+      completeTimerRef.current = setTimeout(() => {
+        onAnimationComplete?.();
+      }, EXIT_DURATION);
+    }, SHAKE_DURATION + OPEN_VISIBLE_DURATION);
   };
 
   return (
@@ -55,7 +60,7 @@ exitTimerRef.current = setTimeout(() => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: EXIT_DURATION / 1000, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[#5d7149] px-6"
           onClick={startEnvelopeAnimation}
         >
@@ -109,7 +114,7 @@ exitTimerRef.current = setTimeout(() => {
               transition={
                 isOpening
                   ? {
-                      duration: 3,
+                      duration: SHAKE_DURATION / 1000,
                       ease: [0.45, 0, 0.2, 1],
                     }
                   : {
@@ -122,37 +127,41 @@ exitTimerRef.current = setTimeout(() => {
               <AnimatePresence mode="wait">
                 {!showOpenEnvelope ? (
                   <motion.img
-  key="sobre-cerrado"
-  src={sobreCerrado}
-  alt="Sobre cerrado"
-  className="relative z-20 w-full drop-shadow-2xl"
-  initial={{ opacity: 1, scale: 1, filter: "brightness(1)" }}
-  animate={{
-    opacity: isOpening ? [1, 1, 1, 1, 0] : 1,
-    filter: isOpening
-      ? [
-          "brightness(1)",
-          "brightness(1.01)",
-          "brightness(1.04)",
-          "brightness(1.12)",
-          "brightness(1.35)",
-        ]
-      : "brightness(1)",
-  }}
-  exit={{
-    opacity: 0,
-    scale: 1.08,
-    transition: {
-      duration: 0.12,
-      ease: "easeOut",
-    },
-  }}
-  transition={{
-    duration: isOpening ? 2.85 : 0.25,
-    ease: [0.45, 0, 0.2, 1],
-  }}
-  draggable={false}
-/>
+                    key="sobre-cerrado"
+                    src={sobreCerrado}
+                    alt="Sobre cerrado"
+                    className="relative z-20 w-full drop-shadow-2xl"
+                    initial={{
+                      opacity: 1,
+                      scale: 1,
+                      filter: "brightness(1)",
+                    }}
+                    animate={{
+                      opacity: isOpening ? [1, 1, 1, 1, 0] : 1,
+                      filter: isOpening
+                        ? [
+                            "brightness(1)",
+                            "brightness(1.01)",
+                            "brightness(1.04)",
+                            "brightness(1.12)",
+                            "brightness(1.35)",
+                          ]
+                        : "brightness(1)",
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 1.08,
+                      transition: {
+                        duration: 0.08,
+                        ease: "easeOut",
+                      },
+                    }}
+                    transition={{
+                      duration: isOpening ? SHAKE_DURATION / 1000 : 0.25,
+                      ease: [0.45, 0, 0.2, 1],
+                    }}
+                    draggable={false}
+                  />
                 ) : (
                   <motion.img
                     key="sobre-abierto"
@@ -161,12 +170,12 @@ exitTimerRef.current = setTimeout(() => {
                     className="relative z-20 w-full drop-shadow-2xl"
                     initial={{
                       opacity: 0,
-                      scale: 1.22,
+                      scale: 1.18,
                       filter: "brightness(1.35)",
                     }}
                     animate={{
                       opacity: 1,
-                      scale: [1.22, 1.08, 1],
+                      scale: [1.18, 1.08, 1],
                       filter: [
                         "brightness(1.35)",
                         "brightness(1.12)",
@@ -187,7 +196,7 @@ exitTimerRef.current = setTimeout(() => {
               </AnimatePresence>
 
               <AnimatePresence>
-                {isOpening && (
+                {isOpening && !showOpenEnvelope && (
                   <>
                     <motion.div
                       className="pointer-events-none absolute inset-0 z-10 rounded-full bg-[#f8f2e8]/35 blur-2xl"
@@ -198,7 +207,7 @@ exitTimerRef.current = setTimeout(() => {
                       }}
                       exit={{ opacity: 0 }}
                       transition={{
-                        duration: 2.85,
+                        duration: SHAKE_DURATION / 1000,
                         ease: "easeOut",
                       }}
                     />
@@ -212,7 +221,7 @@ exitTimerRef.current = setTimeout(() => {
                       }}
                       exit={{ opacity: 0 }}
                       transition={{
-                        duration: 3.05,
+                        duration: SHAKE_DURATION / 1000,
                         ease: "easeOut",
                       }}
                     />
@@ -225,7 +234,10 @@ exitTimerRef.current = setTimeout(() => {
                         scale: [0, 0.15, 0.35, 1.25, 0.7],
                         y: [12, 10, 4, -54, -70],
                       }}
-                      transition={{ duration: 3.05, delay: 0.05 }}
+                      transition={{
+                        duration: SHAKE_DURATION / 1000,
+                        delay: 0.05,
+                      }}
                     >
                       ✦
                     </motion.span>
@@ -238,7 +250,10 @@ exitTimerRef.current = setTimeout(() => {
                         scale: [0, 0.15, 0.35, 1.3, 0.7],
                         y: [12, 10, 4, -64, -78],
                       }}
-                      transition={{ duration: 3.05, delay: 0.15 }}
+                      transition={{
+                        duration: SHAKE_DURATION / 1000,
+                        delay: 0.15,
+                      }}
                     >
                       ✦
                     </motion.span>
@@ -251,7 +266,10 @@ exitTimerRef.current = setTimeout(() => {
                         scale: [0, 0.15, 0.35, 1.15, 0.7],
                         y: [12, 10, 4, -72, -86],
                       }}
-                      transition={{ duration: 3.05, delay: 0.25 }}
+                      transition={{
+                        duration: SHAKE_DURATION / 1000,
+                        delay: 0.25,
+                      }}
                     >
                       ✧
                     </motion.span>
