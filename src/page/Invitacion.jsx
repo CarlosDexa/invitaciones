@@ -85,6 +85,25 @@ export default function InvitacionBodaShelyAndre() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 const [isPassModalOpen, setIsPassModalOpen] = useState(false);
+const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
+const [giftCopied, setGiftCopied] = useState(false);
+
+const bankDetails = `Shely Beatriz Hernández Martínez
+CLABE: 127180016020592880
+Banco: Banco Azteca`;
+
+const copyBankDetails = async () => {
+  try {
+    await navigator.clipboard.writeText(bankDetails);
+    setGiftCopied(true);
+
+    setTimeout(() => {
+      setGiftCopied(false);
+    }, 1600);
+  } catch (error) {
+    console.log("No se pudieron copiar los datos bancarios:", error);
+  }
+};
   useEffect(() => {
     const target = new Date("2026-07-25T19:00:00").getTime();
 
@@ -478,29 +497,39 @@ const pasesInvitado = invitado?.pases || 1;
         </SectionBlock>
 
         <SectionBlock
-          icon={<IoGiftSharp className="mb-4 h-auto w-48 text-[#f8f2e8]" />}
-          title="Mesa de regalos"
-          titleClassName="font-link text-[34px] leading-none"
-          titleTopLine={true}
-          titleBottomLine={true}
-          titleLineWidth="w-60"
-        >
-          <p className="mx-auto mt-3 max-w-[300px] font-body text-[18px] leading-[1.08] text-[#f0dfd7]">
-            El mejor regalo es tu presencia, pero si deseas tener un detalle con
-            nosotros les dejamos estas opciones.
-          </p>
+  icon={<IoGiftSharp className="mb-4 h-auto w-48 text-[#f8f2e8]" />}
+  title="Mesa de regalos"
+  titleClassName="font-link text-[34px] leading-none"
+  titleTopLine={true}
+  titleBottomLine={true}
+  titleLineWidth="w-60"
+>
+  <p className="mx-auto mt-3 max-w-[300px] font-body text-[18px] leading-[1.08] text-[#f0dfd7]">
+    El mejor regalo es tu presencia, pero si deseas tener un detalle con
+    nosotros les dejamos estas opciones.
+  </p>
 
-          <motion.div
-            className="mt-6"
-            whileInView={{ opacity: [0, 1], scale: [0.94, 1] }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, amount: 0.4 }}
-          >
-            <QrRegalos />
-          </motion.div>
+  <motion.div
+    className="mt-6"
+    whileInView={{ opacity: [0, 1], scale: [0.94, 1] }}
+    transition={{ duration: 0.8 }}
+    viewport={{ once: true, amount: 0.4 }}
+  >
+    <QrRegalos />
+  </motion.div>
 
-          <div className="mx-auto mt-4 h-px w-60 bg-white/45" />
-        </SectionBlock>
+  <motion.button
+    type="button"
+    onClick={() => setIsGiftModalOpen(true)}
+    whileHover={{ scale: 1.03 }}
+    whileTap={{ scale: 0.98 }}
+    className="mt-5 font-body text-[15px] text-[#f8f2e8]/85 underline underline-offset-4 transition duration-300 hover:text-white"
+  >
+    Ver opción de transferencia
+  </motion.button>
+
+  <div className="mx-auto mt-4 h-px w-60 bg-white/45" />
+</SectionBlock>
 
         <SectionBlock
   icon={
@@ -650,6 +679,82 @@ const pasesInvitado = invitado?.pases || 1;
         >
           Volver a la invitación
         </button>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+<AnimatePresence>
+  {isGiftModalOpen && (
+    <motion.div
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={() => setIsGiftModalOpen(false)}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.94, y: 20 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[340px] overflow-hidden rounded-[28px] border border-[#d7c9a5]/50 bg-[#f8f2e8] px-6 py-7 text-center text-[#526a43] shadow-2xl"
+      >
+        <button
+          type="button"
+          onClick={() => setIsGiftModalOpen(false)}
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-[#526a43]/20 text-[#526a43] transition hover:bg-[#526a43]/10"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+
+        <p className="font-body text-[11px] uppercase tracking-[0.28em] text-[#526a43]/60">
+          Mesa de regalos
+        </p>
+
+        <h3 className="mt-3 font-link text-[42px] leading-none text-[#b89a4f]">
+          Transferencia
+        </h3>
+
+        <p className="mx-auto mt-4 max-w-[270px] font-body text-[15px] leading-[1.55] text-[#526a43]/80">
+          Para su comodidad, además de la mesa de regalos, contaremos con opción
+          de transferencia bancaria o efectivo el día del evento.
+        </p>
+
+        <div className="mx-auto mt-5 h-px w-40 bg-[#b89a4f]/35" />
+
+        <div className="mt-5 space-y-3 font-body text-[#526a43]">
+          <p className="text-[16px] leading-[1.35]">
+            Shely Beatriz Hernández Martínez
+          </p>
+
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-[#526a43]/55">
+              CLABE
+            </p>
+            <p className="mt-1 select-all font-serif-elegant text-[25px] leading-none tracking-[0.04em] text-[#526a43]">
+              127180016020592880
+            </p>
+          </div>
+
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-[#526a43]/55">
+              Banco
+            </p>
+            <p className="mt-1 text-[16px]">Banco Azteca</p>
+          </div>
+        </div>
+
+        <motion.button
+          type="button"
+          onClick={copyBankDetails}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-6 inline-flex items-center justify-center rounded-full border border-[#b89a4f]/60 bg-[#526a43] px-7 py-3 font-link text-[23px] leading-none text-[#f8f2e8] shadow-lg transition hover:bg-[#455a39]"
+        >
+          {giftCopied ? "Datos copiados" : "Copiar datos"}
+        </motion.button>
       </motion.div>
     </motion.div>
   )}
