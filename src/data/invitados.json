@@ -117,7 +117,7 @@
       "nombre": "Alejandra Palma",
       "numero": "9981839412",
       "token": "17-Alejandra-Palma",
-      "pases": 1
+      "pases": 2
     },
     {
       "id": 18,
@@ -187,7 +187,7 @@
       "nombre": "Flor Flores",
       "numero": "9981883144",
       "token": "27-Flor-Flores",
-      "pases": 1
+      "pases": 2
     },
     {
       "id": 28,
@@ -404,6 +404,34 @@
       "nombre": "María Jesús Martín Acosta",
       "numero": "9811292721",
       "token": "58-Maria-Jesus-Martin-Acosta",
+      "pases": 2
+    },
+    {
+      "id": 59,
+      "nombre": "Roxana López",
+      "numero": "9811292721",
+      "token": "59-Roxana-Lopez",
+      "pases": 2
+    },
+    {
+      "id": 60,
+      "nombre": "Esperanza Canché",
+      "numero": "9811292721",
+      "token": "60-Esperanza-Canche",
+      "pases": 2
+    },
+    {
+      "id": 61,
+      "nombre": "Naomi Medina",
+      "numero": "9811292721",
+      "token": "61-Naomi-Medina",
+      "pases": 2
+    },
+    {
+      "id": 62,
+      "nombre": "Estela Corona",
+      "numero": "9811292721",
+      "token": "62-Estela-Corona",
       "pases": 2
     }
   ]
